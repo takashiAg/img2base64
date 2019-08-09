@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script>
+        let image2base64 = input_id => new Promise((resolve, reject) => {
+            let fileinput = document.getElementById(input_id);
+            if (fileinput == null)
+                reject("cant find element");
+
+            let fileData = file.files[0]
+            if (fileData === undefined)
+                reject("no file")
+
+            if (!fileData.type.match('image.*'))
+                reject("file type error");
+
+            let reader = new FileReader();
+            reader.onload = () => {
+                resolve(reader.result)
+            }
+            reader.readAsDataURL(fileData);
+        })
+        let convert = async () => {
+            let b64 = await image2base64('file')
+            document.getElementById("result").innerText = b64;
+            document.getElementById("result2").src = b64;
+        }
+    </script>
+</head>
+<body>
+<input type="file" accept='image/*' id="file">
+<button onclick="convert()">convert</button>
+<div id="result"></div>
+<img id="result2">
+</body>
+</html>
